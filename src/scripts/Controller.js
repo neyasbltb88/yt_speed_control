@@ -1,17 +1,28 @@
+import Model from './Model';
 import PlaybackRateView from './PlaybackRateView';
 import { reporter, isFalse } from '@utils';
 
 class Controller {
+    /** Модель, сохраняющая значения */
+    model = new Model();
     /** html-элемент плеера, на который YouTube пробрасывает методы управления воспроизведением */
     player = null;
     /** html-элемент контейнера кнопок управления плеером */
     controls = null;
     /** Массив чисел с допустимыми значениями скорости воспроизведения */
     availablePlaybackRates = [];
-    /** Текущая скорость воспроизведения */
-    playbackRateValue = 1;
     /** Класс, управляющий отображением кнопки изменения скорости воспроизведения */
     playbackRateView = new PlaybackRateView(this.playbackRateValue);
+
+    /** Модель текущей скорости воспроизведения */
+    get playbackRateValue() {
+        return this.model.playbackRateValue;
+    }
+    set playbackRateValue(value) {
+        if (value === this.model.playbackRateValue) return;
+
+        this.model.playbackRateValue = value;
+    }
 
     /**
      * @description Метод уменьшения скорости воспроизведения на один шаг.
