@@ -4,24 +4,18 @@ import { reporter, isFalse } from '@utils';
 
 class Controller {
     /** Модель, сохраняющая значения */
-    model = new Model();
-    /** html-элемент плеера, на который YouTube пробрасывает методы управления воспроизведением */
-    player = null;
-    /** html-элемент контейнера кнопок управления плеером */
-    controls = null;
-    /** Массив чисел с допустимыми значениями скорости воспроизведения */
-    availablePlaybackRates = [];
+    #model = new Model();
+    /** Контроллер, связывающий этот класс с плеером */
+    #player = null;
     /** Класс, управляющий отображением кнопки изменения скорости воспроизведения */
-    playbackRateView = new PlaybackRateView(this.playbackRateValue);
-
-    /** Модель текущей скорости воспроизведения */
+    #playbackRateView = new PlaybackRateView(this.playbackRateValue);
+    /** Значение текущей скорости воспроизведения */
     get playbackRateValue() {
-        return this.model.playbackRateValue;
+        return this.#model.playbackRateValue;
     }
-    set playbackRateValue(value) {
-        if (value === this.model.playbackRateValue) return;
-
-        this.model.playbackRateValue = value;
+    /** Массив чисел с допустимыми значениями скорости воспроизведения */
+    get availablePlaybackRates() {
+        return this.#player.getAvailablePlaybackRates();
     }
 
     /**
@@ -66,10 +60,10 @@ class Controller {
             return false;
         }
 
-        this.playbackRateValue = value;
-        this.playbackRateView.setValue(value);
-        if (this.player.getPlaybackRate() !== value) {
-            this.player.setPlaybackRate(value);
+        this.#model.playbackRateValue = value;
+        this.#playbackRateView.setValue(value);
+        if (this.#player.getPlaybackRate() !== value) {
+            this.#player.setPlaybackRate(value);
         }
 
         return true;
@@ -103,36 +97,28 @@ class Controller {
         return nextValue;
     }
     /** Инициализация контроллера, может вызываться отложенно, после создания экземпляра этого класса */
-    init() {
-        let player = document.querySelector('#movie_player');
-        let controls = document.querySelector('.ytp-right-controls');
-
-        if (!player || !controls) {
-            reporter.error('Controller: При инициализации отсутствуют необходимые данные', { player, controls });
+    init(player) {
+        if (!player) {
+            reporter.error('Controller: При инициализации отсутствует контроллер плеера');
             return;
         }
-        this.player = player;
-        this.controls = controls;
-
-        this.availablePlaybackRates = this.player.getAvailablePlaybackRates();
+        this.#player = player;
         this.setPlaybackRateValue(this.playbackRateValue);
-        this.player.addEventListener('onPlaybackRateChange', this.setPlaybackRateValue);
+        this.#player.on('onPlaybackRateChange', this.setPlaybackRateValue);
 
-        this.playbackRateView.init(this.controls);
-        this.playbackRateView.on('minus', this.decrementPlaybackRate);
-        this.playbackRateView.on('plus', this.incrementPlaybackRate);
+        this.#playbackRateView.init(this.#player.controls);
+        this.#playbackRateView.on('minus', this.decrementPlaybackRate);
+        this.#playbackRateView.on('plus', this.incrementPlaybackRate);
     }
     /** Деактивация контроллера */
     destroy() {
-        this.player.removeEventListener('onPlaybackRateChange', this.setPlaybackRateValue);
+        this.#player.off('onPlaybackRateChange', this.setPlaybackRateValue);
 
-        this.playbackRateView.off('minus', this.decrementPlaybackRate);
-        this.playbackRateView.off('plus', this.incrementPlaybackRate);
-        this.playbackRateView.destroy();
+        this.#playbackRateView.off('minus', this.decrementPlaybackRate);
+        this.#playbackRateView.off('plus', this.incrementPlaybackRate);
+        this.#playbackRateView.destroy();
 
-        this.player = null;
-        this.controls = null;
-        this.availablePlaybackRates = [];
+        this.#player = null;
     }
 }
 
