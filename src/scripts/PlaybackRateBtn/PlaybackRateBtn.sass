@@ -1,0 +1,34 @@
+.PlaybackRateBtn
+    color: #fff
+    &-inner
+        width: 100%
+        height: 100%
+        display: inline-flex !important
+        position: relative
+        justify-content: space-between
+    &-btn
+        display: flex
+        align-items: center
+        flex-grow: 1
+        flex-basis: 50%
+        opacity: 0.15
+        transition: opacity 250ms ease-in-out
+        &:hover
+            opacity: 1
+    &-minus
+        justify-content: flex-start
+    &-plus
+        justify-content: flex-end
+    &-chevron
+        width: 8px
+        height: 14px
+    &-value
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        display: flex
+        justify-content: center
+        align-items: center
+        z-index: -1
