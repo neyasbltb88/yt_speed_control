@@ -1,4 +1,4 @@
-import { EventEmitter } from '@utils';
+import { reporter, EventEmitter } from '@utils';
 
 class YouTubePlayerController extends EventEmitter {
     /** html-элемент плеера, на который YouTube пробрасывает методы управления воспроизведением */
