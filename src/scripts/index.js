@@ -1,17 +1,17 @@
-import PlaybackRateView from './PlaybackRateView';
+import Controller from './Controller';
 
-let playbackRateView = new PlaybackRateView(1.25);
+let controller = new Controller();
+window.controller = controller;
 
 const init = () => {
-    let controls = document.querySelector('.ytp-right-controls');
-    playbackRateView.init(controls);
+    controller.init();
 };
 setTimeout(init, 0);
 
 // Код для горячего обновления модуля
 if (module.hot) {
     module.hot.dispose(() => {
-        playbackRateView.destroy();
+        controller.destroy();
     });
 
     module.hot.accept();
