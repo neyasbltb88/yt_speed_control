@@ -51,5 +51,8 @@
         "last 8 FirefoxAndroid versions",
         "last 10 iOS versions",
         "last 5 Opera versions"
-    ]
+    ],
+    "dependencies": {
+        "segregate-local-storage": "^1.0.3"
+    }
 }
