@@ -1,21 +1,18 @@
-let Main = require('./template/Main').default;
+import PlaybackRateView from './PlaybackRateView';
 
-const render = () => {
-    app.appendChild(main);
+let playbackRateView = new PlaybackRateView(1.25);
+
+const init = () => {
+    let controls = document.querySelector('.ytp-right-controls');
+    playbackRateView.init(controls);
 };
-
-const app = document.body;
-let main = Main();
-render();
+setTimeout(init, 0);
 
 // Код для горячего обновления модуля
 if (module.hot) {
-    module.hot.accept('./template/Main', () => {
-        app.removeChild(main);
-
-        Main = require('./template/Main').default;
-        main = Main();
-
-        render();
+    module.hot.dispose(() => {
+        playbackRateView.destroy();
     });
+
+    module.hot.accept();
 }
