@@ -1,5 +1,6 @@
+import EventEmitter from '@neyasbltb_88/event-emitter';
 import PlaybackRateBtn from './PlaybackRateBtn';
-import { reporter, EventEmitter } from '@utils';
+import { reporter } from '@utils';
 
 class PlaybackRateView extends EventEmitter {
     container = null;
