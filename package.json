@@ -12,7 +12,7 @@
         "clear": "rm -r dist/ && rm stats.json"
     },
     "keywords": [],
-    "author": "",
+    "author": "Neyasbltb <neyasbltb_88@mail.ru>",
     "license": "ISC",
     "devDependencies": {
         "@babel/core": "^7.16.7",
@@ -22,17 +22,18 @@
         "@babel/plugin-transform-react-jsx": "^7.3.0",
         "@babel/preset-env": "^7.16.7",
         "@babel/preset-typescript": "^7.16.7",
+        "@types/webpack-env": "^1.18.0",
         "babel-loader": "^8.2.3",
         "clean-webpack-plugin": "^3.0.0",
-        "copy-webpack-plugin": "^5.0.4",
+        "copy-webpack-plugin": "^5.1.2",
         "cross-env": "^6.0.3",
         "css-loader": "^3.2.0",
         "file-loader": "^4.2.0",
         "html-webpack-plugin": "^3.2.0",
         "https-localhost": "^4.7.0",
-        "node-sass": "^4.13.1",
         "raw-loader": "^3.1.0",
-        "sass-loader": "^8.0.0",
+        "sass": "^1.54.9",
+        "sass-loader": "^10.3.1",
         "style-loader": "^1.0.0",
         "url-loader": "^2.2.0",
         "webpack": "^4.41.0",
@@ -42,15 +43,7 @@
         "webpack-livereload-plugin": "^2.2.0"
     },
     "browserslist": [
-        "last 10 Chrome versions",
-        "last 10 Firefox versions",
-        "last 4 Edge versions",
-        "last 7 Safari versions",
-        "last 8 Android versions",
-        "last 8 ChromeAndroid versions",
-        "last 8 FirefoxAndroid versions",
-        "last 10 iOS versions",
-        "last 5 Opera versions"
+        "last 1 Chrome versions"
     ],
     "dependencies": {
         "@neyasbltb_88/event-emitter": "^1.0.0",
