@@ -54,6 +54,7 @@
     ],
     "dependencies": {
         "@neyasbltb_88/event-emitter": "^1.0.0",
+        "@neyasbltb_88/hot-keys-controller": "^1.0.3",
         "segregate-local-storage": "^1.0.3"
     },
     "volta": {
