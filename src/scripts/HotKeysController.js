@@ -14,11 +14,11 @@ export default class HotKeysController {
     #actions = [
         {
             hotKey: 'CTRL+Comma',
-            callback: this.onDecrement.bind(this)
+            callback: () => this.onDecrement()
         },
         {
             hotKey: 'CTRL+Period',
-            callback: this.onIncrement.bind(this)
+            callback: () => this.onIncrement()
         }
     ];
 
