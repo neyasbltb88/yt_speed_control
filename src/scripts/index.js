@@ -6,16 +6,27 @@ let youTubePlayerController = new YouTubePlayerController();
 let controller = new Controller();
 let hotKeysController = new HotKeysController();
 
+let interval;
+
 const init = () => {
-    youTubePlayerController.init();
-    controller.init(youTubePlayerController);
-    hotKeysController.init(controller);
+    interval = setInterval(() => {
+        const result = youTubePlayerController.init();
+        if (!result) return;
+
+        // После успешной вставки кнопки останавливаем интервал
+        clearInterval(interval);
+        controller.init(youTubePlayerController);
+        hotKeysController.init(controller);
+    }, 100);
 };
-setTimeout(init, 2100);
+
+init();
 
 // Код для горячего обновления модуля
 if (module.hot) {
     module.hot.dispose(() => {
+        if (interval) clearInterval(interval);
+
         youTubePlayerController.destroy();
         controller.destroy();
         hotKeysController.destroy();
