@@ -1,5 +1,6 @@
 import EventEmitter from '@neyasbltb_88/event-emitter';
 import { reporter } from '@utils';
+import { config } from './config';
 
 class YouTubePlayerController extends EventEmitter {
     /** html-элемент плеера, на который YouTube пробрасывает методы управления воспроизведением */
@@ -33,8 +34,9 @@ class YouTubePlayerController extends EventEmitter {
     };
 
     init() {
-        let player = document.querySelector('#movie_player');
-        let controls = player.querySelector('.ytp-right-controls');
+        let player = document.querySelector(config.selectors.player);
+        let controls = player.querySelector(config.selectors.container);
+        if (!player || !controls) return false;
 
         if (!player || !controls) {
             reporter.error('YouTubePlayerController: При инициализации отсутствуют необходимые данные', {
@@ -47,6 +49,8 @@ class YouTubePlayerController extends EventEmitter {
         this.#controls = controls;
 
         this.#player.addEventListener('onPlaybackRateChange', this.#onPlaybackRateChangeHandler);
+
+        return true;
     }
     destroy() {
         this.#player.removeEventListener('onPlaybackRateChange', this.#onPlaybackRateChangeHandler);
