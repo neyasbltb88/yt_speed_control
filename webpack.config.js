@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const CustomHotUpdateStrategy = require('webpack-custom-hot-update-strategy');
@@ -10,6 +11,32 @@ const DEV = NODE_ENV === 'development';
 
 const { publicPath } = require('./base.config.js');
 const devServerConfig = require('./dev-server.config.js');
+
+// Custom plugin to generate userscript file
+class UserscriptPlugin {
+    apply(compiler) {
+        compiler.hooks.done.tap('UserscriptPlugin', (stats) => {
+            const distPath = path.resolve(__dirname, 'dist');
+            const metaPath = path.resolve(__dirname, 'src/userscript.meta.txt');
+            const indexJsPath = path.resolve(distPath, 'index.js');
+            const userscriptPath = path.resolve(distPath, 'index.user.js');
+
+            // Read the static meta file
+            const metaContent = fs.readFileSync(metaPath, 'utf8');
+            // Load package.json to obtain the current version
+            const pkgPath = path.resolve(__dirname, 'package.json');
+            const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+            // Replace the @version line with the version from package.json
+            const versionedMeta = metaContent.replace(/^\/\/ @version\s+.*$/m, `// @version      ${pkg.version}`);
+            const indexContent = fs.readFileSync(indexJsPath, 'utf8');
+
+            const userscriptContent = versionedMeta + '\n' + indexContent;
+            fs.writeFileSync(userscriptPath, userscriptContent, 'utf8');
+
+            console.log('Userscript generated: dist/index.user.js');
+        });
+    }
+}
 
 config = {
     mode: NODE_ENV,
@@ -44,7 +71,8 @@ config = {
         }),
         new CustomHotUpdateStrategy({
             update: updateFetchEval
-        })
+        }),
+        new UserscriptPlugin()
     ],
 
     module: {

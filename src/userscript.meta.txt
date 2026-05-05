@@ -1,0 +1,15 @@
+// ==UserScript==
+// @name         YT_SpeedControl
+// @namespace    @neyasbltb88
+// @version      1.0.0
+// @description  Кнопка изменения скорости воспроизведения видео. Хоткей CTRL+< и CTRL+>.
+// @homepageURL  https://github.com/neyasbltb88/yt_speed_control
+// @source       https://github.com/neyasbltb88/yt_speed_control.git
+// @downloadURL  https://raw.githubusercontent.com/neyasbltb88/yt_speed_control/tree/master/dist/index.user.js
+// @updateURL    https://raw.githubusercontent.com/neyasbltb88/yt_speed_control/tree/master/dist/index.user.js
+// @grant        unsafeWindow
+// @noframes
+// @unwrap
+// @match        https://www.youtube.com/*
+// @run-at       document-idle
+// ==/UserScript==
